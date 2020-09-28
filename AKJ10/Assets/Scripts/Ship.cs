@@ -2,11 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Ship : HoverListener
 {
     [SerializeField]
     private float startDelay = 0.0f;
+
+    [SerializeField]
+    private float PassengersNeeded = 0.0f;
 
     [SerializeField]
     RouteDesigner routeDesigner;
@@ -38,6 +42,18 @@ public class Ship : HoverListener
     [SerializeField]
     AudioClip ClickSound;
 
+    [SerializeField]
+    TickerTimer LandTimerText;
+
+    [SerializeField]
+    GameObject LandTimer;
+
+    [SerializeField]
+    GameObject SpawnCanvas;
+
+    [SerializeField]
+    Text SpawnText;
+
     public AudioSource audioSource;
 
     Animator animator;
@@ -51,12 +67,15 @@ public class Ship : HoverListener
     private List<Planet> route;
 
     private float cycleDelay = 3.0f;
+    private float launched = 0.0f;
 
     private int MAX_PASSENGERS = 10;
     public int Passengers = 0;
     public int ReservedSeats = 0;
 
     public int Score;
+
+    bool spawned = false;
     
     public bool RoomAvailable()
     {
@@ -100,18 +119,34 @@ public class Ship : HoverListener
         animator = GetComponentInChildren<Animator>();
         hoverable = GetComponentInChildren<Hoverable>();
         hoverable.DisableHovering();
-        Invoke("StartLanding", startDelay);
         launchButton.ship = this;
         launchButton.gameObject.SetActive(false);
 
         PlanetManager.INSTANCE.Ships.Add(this);
 
         audioSource = GetComponent<AudioSource>();
+
+        if (PassengersNeeded == 0)
+        {
+            SpawnCanvas.SetActive(false);
+        }
+        else
+        {
+            SpawnCanvas.SetActive(true);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!spawned && PlanetManager.INSTANCE.PassengersSent >= PassengersNeeded)
+        {
+            Invoke("StartLanding", startDelay);
+            spawned = true;
+            SpawnCanvas.SetActive(false);
+        }
+        UpdateSpawnText();
+
         if (state == State.WAITING_FOR_PASSENGERS)
         {
             GateFiller.SetFillAmount((float)Passengers / MAX_PASSENGERS, true);
@@ -144,6 +179,7 @@ public class Ship : HoverListener
 
     private void handleLanding()
     {
+        updateLandTimer();
         if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name != "Land")
         {
             land();
@@ -164,6 +200,11 @@ public class Ship : HoverListener
         {
             launchButton.gameObject.SetActive(true);
         }
+
+        if (Passengers >= MAX_PASSENGERS)
+        {
+            Invoke("Launch", 1.5f);
+        }
     }
 
     private void handleLaunching()
@@ -173,12 +214,13 @@ public class Ship : HoverListener
 
     private void handleAway()
     {
-
+        updateLandTimer();
     }
 
     private void land()
     {
         state = State.WAITING_FOR_ROUTE;
+        LandTimer.gameObject.SetActive(false);
         hoverable.EnableHovering();
     }
 
@@ -216,26 +258,45 @@ public class Ship : HoverListener
 
     public void Launch()
     {
-        animator.Play("Launch");
-        state = State.LAUNCHING;
-        hoverable.DisableHovering();
-        launchButton.gameObject.SetActive(false);
-        addScore();
-        Invoke("StartLanding", cycleDelay);
-
-        foreach (var gatePlanet in gatePlanets)
+        if (state == State.WAITING_FOR_PASSENGERS)
         {
-            gatePlanet.SetPlanetIndex(-1);
-        }
+            animator.Play("Launch");
+            state = State.LAUNCHING;
+            hoverable.DisableHovering();
+            launchButton.gameObject.SetActive(false);
+            addScore();
+            Invoke("Launched", 2.0f);
+            Invoke("StartLanding", cycleDelay);
 
-        Passengers = 0;
-        ReservedSeats = 0;
-        audioSource.PlayOneShot(LaunchSound);
+            foreach (var gatePlanet in gatePlanets)
+            {
+                gatePlanet.SetPlanetIndex(-1);
+            }
+
+            Passengers = 0;
+            ReservedSeats = 0;
+            audioSource.PlayOneShot(LaunchSound);
+            launched = Time.time;
+            updateLandTimer();
+        }
+    }
+
+    void updateLandTimer()
+    {
+        var seconds = Mathf.Clamp(launched + cycleDelay - Time.time, 0.0f, 599f);
+        LandTimerText.SetTime(Mathf.CeilToInt(seconds));
+    }
+
+    public void Launched()
+    {
+        LandTimer.gameObject.SetActive(true);
+        state = State.AWAY;
     }
 
     private void addScore()
     {
         PlanetManager.INSTANCE.Score += Score * Passengers;
+        PlanetManager.INSTANCE.PassengersSent += Passengers;
         if (Score * Passengers > 0)
         {
             ScorePop.gameObject.SetActive(true);
@@ -266,5 +327,11 @@ public class Ship : HoverListener
     public override void OnUnHover()
     {
         hover = false;
+    }
+
+    void UpdateSpawnText()
+    {
+        var additionalPassengers = PassengersNeeded - PlanetManager.INSTANCE.PassengersSent;
+        SpawnText.text = "Transport " + additionalPassengers.ToString() + " more passengers to unlock an additional ship.";
     }
 }

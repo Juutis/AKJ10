@@ -21,8 +21,11 @@ public class PassengerSpawner : MonoBehaviour
     int MAX_GROUP_SIZE = 15;
     int MIN_GROUP_SIZE = 1;
 
-    float MAX_DELAY = 5.0f;
-    float MIN_DELAY = 0.5f;
+    float MIN_GROUPS_PER_SECOND = 0.075f;
+    float MAX_GROUPS_PER_SECOND = 1.0f;
+
+    float MIN_PER_SECOND = 0.15f;
+    float MAX_PER_SECOND = 2.5f;
 
     int groupsGenerated = 0;
 
@@ -38,12 +41,12 @@ public class PassengerSpawner : MonoBehaviour
     {
         if (spawnTimer < Time.time)
         {
-            spawnPassenger();
-            spawnTimer = Time.time + getInterval();
+            var delay = spawnPassenger();
+            spawnTimer = Time.time + delay;
         }
     }
 
-    void spawnPassenger()
+    float spawnPassenger()
     {
         if (groupSize <= 0)
         {
@@ -57,13 +60,29 @@ public class PassengerSpawner : MonoBehaviour
         passenger.GetComponent<Passenger>().SetTargetPlanet(targetPlanet);
         passenger.GetComponent<Passenger>().InHurry = inHurry;
         groupSize--;
+        return groupSize <= 0 ? getGroupInterval() : getInterval();
     }
 
     float getInterval()
     {
         var elapsedTime = getElapsedTime();
-        var value = 5.0f - elapsedTime/45.0f + Random.Range(-0.5f, 0.5f);
-        return Mathf.Clamp(value, MIN_DELAY, MAX_DELAY);
+        var t = Mathf.Sqrt(elapsedTime) / 25f + Random.Range(-0.1f, 0.1f);
+        t = Mathf.Clamp(t, 0.0f, 1.0f);
+        var groupsPerSecond = Mathf.Lerp(MIN_PER_SECOND, MAX_PER_SECOND, t);
+
+        var value = 1.0f / groupsPerSecond;
+        return value;
+    }
+
+    float getGroupInterval()
+    {
+        var elapsedTime = getElapsedTime();
+        var t = Mathf.Sqrt(elapsedTime) / 40f + Random.Range(-0.1f, 0.1f);
+        t = Mathf.Clamp(t, 0.0f, 1.0f);
+        var groupsPerSecond = Mathf.Lerp(MIN_GROUPS_PER_SECOND, MAX_GROUPS_PER_SECOND, t);
+
+        var value = 1.0f / groupsPerSecond;
+        return value;
     }
 
     int getTargetPlanet()
@@ -116,15 +135,15 @@ public class PassengerSpawner : MonoBehaviour
         }
         else if (elapsedTime < 60)
         {
-            value = Random.Range(2, 4);
+            value = Random.Range(3, 8);
         }
         else if (elapsedTime < 90)
         {
-            value = Random.Range(3, 15);
+            value = Random.Range(3, 10);
         }
         else if (elapsedTime < 120)
         {
-            value = Random.Range(1, 10);
+            value = Random.Range(1, 3);
         }
         else
         {
@@ -136,7 +155,7 @@ public class PassengerSpawner : MonoBehaviour
 
     int getPossiblePlanets()
     {
-        int value = 2 + (int)(getElapsedTime()/15);
+        int value = 2 + (int)(getElapsedTime()/20);
         return Mathf.Min(PlanetManager.INSTANCE.planetColors.Length, Mathf.Max(0, value));
     }
 

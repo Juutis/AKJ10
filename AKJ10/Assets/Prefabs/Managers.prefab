@@ -44,15 +44,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planetColors:
-  - {r: 0.6698113, g: 0, b: 0.06604653, a: 1}
+  - {r: 0.5849056, g: 0.11863652, b: 0.15546466, a: 1}
   - {r: 0.8207547, g: 0.38215035, b: 0, a: 1}
-  - {r: 0.9433962, g: 0.9104934, b: 0.16464934, a: 1}
-  - {r: 0.50765395, g: 0.5849056, b: 0.41108933, a: 1}
-  - {r: 0.011881431, g: 0.8396226, b: 0.065925024, a: 1}
-  - {r: 0.55602527, g: 0.8018868, b: 0.7840942, a: 1}
+  - {r: 0.7735849, g: 0.7453649, b: 0.14960839, a: 1}
+  - {r: 0.519344, g: 0.5660378, b: 0.44054827, a: 1}
+  - {r: 0.16153437, g: 0.6226415, b: 0.19212915, a: 1}
+  - {r: 0.16113384, g: 0.6698113, b: 0.63699347, a: 1}
   - {r: 0.07489321, g: 0.151063, b: 0.4811321, a: 1}
-  - {r: 0.5447999, g: 0.43244928, b: 0.8113208, a: 1}
-  - {r: 0.5943396, g: 0.075694196, b: 0.5473736, a: 1}
+  - {r: 0.62406135, g: 0.09291565, b: 0.6792453, a: 1}
   ScoreText: {fileID: 1066017646456649970}
   Ships: []
   Score: 0
@@ -326,6 +325,10 @@ PrefabInstance:
     - target: {fileID: 4673700551420856947, guid: 6b390a6a57f4e1c46a9f31d570c2c39b, type: 3}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7079185121500954610, guid: 6b390a6a57f4e1c46a9f31d570c2c39b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -261.9004
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b390a6a57f4e1c46a9f31d570c2c39b, type: 3}

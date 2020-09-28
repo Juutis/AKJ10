@@ -82,6 +82,15 @@ public class RouteDesigner : MonoBehaviour
                 updateUI();
             }
         }
+
+        if (route.Count == 0)
+        {
+            applyButton.Disable();
+        }
+        else
+        {
+            applyButton.Enable();
+        }
     }
 
     public void Select(Planet planet)
@@ -189,7 +198,7 @@ public class RouteDesigner : MonoBehaviour
     void updateUI()
     {
         jumpsRemainingText.text = getJumpsRemaining().ToString();
-        totalDistanceText.text = ((int)getTotalDistance() * 10).ToString();
+        totalDistanceText.text = ((int)(getTotalDistance() * 10)).ToString();
         timeTakenText.text = getTimeTaken().ToString("F1");
     }
 
@@ -213,6 +222,6 @@ public class RouteDesigner : MonoBehaviour
 
     float getTimeTaken()
     {
-        return getTotalDistance() / 1.5f + route.Count * 2.5f;
+        return route.Count <= 0 ? 0 : 3.0f + getTotalDistance() / 1.5f + route.Count * 2.5f;
     }
 }

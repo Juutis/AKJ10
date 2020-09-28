@@ -433,15 +433,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6341421574534468566, guid: 88559eb774b949e4d8078ba5b75ba60e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.88
+      value: 0.877
       objectReference: {fileID: 0}
     - target: {fileID: 6341421574534468566, guid: 88559eb774b949e4d8078ba5b75ba60e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.06
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6341421574534468566, guid: 88559eb774b949e4d8078ba5b75ba60e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.88
+      value: -5.936
       objectReference: {fileID: 0}
     - target: {fileID: 6800880725496963371, guid: 88559eb774b949e4d8078ba5b75ba60e, type: 3}
       propertyPath: routeDesigner
@@ -900,15 +900,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6341421574534468566, guid: 88559eb774b949e4d8078ba5b75ba60e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.87
+      value: -5.945
       objectReference: {fileID: 0}
     - target: {fileID: 6341421574534468566, guid: 88559eb774b949e4d8078ba5b75ba60e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.05
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: 6341421574534468566, guid: 88559eb774b949e4d8078ba5b75ba60e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.83
+      value: 0.823
       objectReference: {fileID: 0}
     - target: {fileID: 6800880725496963371, guid: 88559eb774b949e4d8078ba5b75ba60e, type: 3}
       propertyPath: routeDesigner
@@ -916,7 +916,11 @@ PrefabInstance:
       objectReference: {fileID: 731062726}
     - target: {fileID: 6800880725496963371, guid: 88559eb774b949e4d8078ba5b75ba60e, type: 3}
       propertyPath: startDelay
-      value: 90
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800880725496963371, guid: 88559eb774b949e4d8078ba5b75ba60e, type: 3}
+      propertyPath: PassengersNeeded
+      value: 150
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88559eb774b949e4d8078ba5b75ba60e, type: 3}
@@ -1046,7 +1050,11 @@ PrefabInstance:
       objectReference: {fileID: 731062726}
     - target: {fileID: 6800880725496963371, guid: 88559eb774b949e4d8078ba5b75ba60e, type: 3}
       propertyPath: startDelay
-      value: 60
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800880725496963371, guid: 88559eb774b949e4d8078ba5b75ba60e, type: 3}
+      propertyPath: PassengersNeeded
+      value: 35
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88559eb774b949e4d8078ba5b75ba60e, type: 3}

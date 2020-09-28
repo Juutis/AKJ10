@@ -7,17 +7,17 @@ public class Lobby : MonoBehaviour
 {
     public static Lobby INSTANCE;
 
-    public static int CAPACITY = 100;
-    public static int WARN = 50;
-    public static int CRITICAL = 90;
+    public static int CAPACITY = 50;
+    public static int WARN = 25;
+    public static int CRITICAL = 40;
     public int Passengers = 0;
 
 
-    public static int DAMAGE1 = 50;
-    public static int DAMAGE2 = 60;
-    public static int DAMAGE3 = 70;
-    public static int DAMAGE4 = 80;
-    public static int DAMAGE5 = 90;
+    public static int DAMAGE1 = 25;
+    public static int DAMAGE2 = 30;
+    public static int DAMAGE3 = 35;
+    public static int DAMAGE4 = 40;
+    public static int DAMAGE5 = 45;
     int maxPassengers = 0;
 
     [SerializeField]

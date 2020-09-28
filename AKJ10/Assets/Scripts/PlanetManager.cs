@@ -17,6 +17,8 @@ public class PlanetManager : MonoBehaviour
 
     public int Score;
 
+    public int PassengersSent = 0;
+
     void Awake()
     {
         INSTANCE = this;

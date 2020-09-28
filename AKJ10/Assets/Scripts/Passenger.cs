@@ -235,7 +235,7 @@ public class Passenger : MonoBehaviour
 
     int getScoreValue()
     {
-        return InHurry ? 3 : targetPlanet == targetShip.GetPrimaryPlanet() ? 2 : 1;
+        return InHurry ? 3 : 2;
     }
 
     void randomizeTargetPosition()
